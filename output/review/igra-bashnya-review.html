@@ -1,0 +1,445 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Высокая вода — рабочий свод игры</title>
+<style>
+:root{--paper:#f7f3e9;--surface:#fdfbf6;--ink:#182f2d;--muted:#4d625e;--line:#d5d8ca;--sea:#1d665d;--pale:#e4efea;--amber:#88541d;--amber-pale:#f4e7d0;--night:#16332f;--white:#fffaf0;--radius:16px}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-padding-top:78px}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.55 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+a{color:var(--sea);text-underline-offset:.24em}
+a:hover{text-decoration-thickness:2px}
+h1,h2,h3,p{margin:0}
+h1,h2{font-family:Georgia,"Times New Roman",serif;font-weight:500;line-height:1.06;letter-spacing:-.04em}
+h1{font-size:clamp(3rem,9vw,6.65rem);max-width:860px}
+h2{font-size:clamp(2.2rem,4vw,3.15rem)}
+h3{font-size:1rem;line-height:1.3}
+.wrap{width:min(1120px,calc(100% - 48px));margin-inline:auto}
+.skip{position:absolute;top:8px;left:-999px;background:var(--surface);padding:10px;z-index:4}.skip:focus{left:8px}
+.hero{background:var(--night);color:var(--white);padding:clamp(48px,8vw,100px) 0 40px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-110px;bottom:-105px;width:530px;height:380px;border:1px solid #ffffff22;transform:rotate(-15deg);border-radius:45%;box-shadow:0 0 0 24px #ffffff0c,0 0 0 49px #ffffff09,0 0 0 75px #ffffff06;pointer-events:none}
+.hero .wrap{position:relative;z-index:1}
+.eyebrow{display:block;font-size:.72rem;letter-spacing:.13em;text-transform:uppercase;font-weight:750;color:var(--sea);margin-bottom:12px}
+.hero .eyebrow{color:#b7d8ca}
+.hero p{font-size:clamp(1rem,2vw,1.18rem);max-width:680px;margin-top:24px;color:#e1e7dc}
+.hero-meta{display:flex;gap:12px 22px;flex-wrap:wrap;margin:28px 0 0;padding:17px 0 0;border-top:1px solid #ffffff27;color:#c2d6cc;font-size:.91rem}
+.nav{position:sticky;top:0;z-index:3;background:var(--paper);border-bottom:1px solid var(--line)}
+.nav ul{display:flex;gap:0 24px;list-style:none;margin:0;padding:0;overflow:auto;scrollbar-width:thin;white-space:nowrap}
+.nav a{display:block;padding:13px 0;text-decoration:none;font-size:.9rem;font-weight:650;color:var(--ink)}
+.nav a:hover{text-decoration:underline}
+main{padding:40px 0 70px}
+section{margin:0 0 56px}
+.section-head{margin-bottom:23px}
+.section-head p{margin-top:10px;color:var(--muted);max-width:780px}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(2,minmax(0,1fr))}
+.panel,.metric,.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:20px}
+.panel p{margin-top:8px;color:var(--muted)}
+.panel p a{font-weight:600}
+.note{background:var(--pale);border-left:4px solid var(--sea);padding:13px 17px;margin:15px 0;border-radius:4px 10px 10px 4px}
+.note p + p{margin-top:7px}
+.note.warn{background:var(--amber-pale);border-color:var(--amber)}
+.metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:18px 0}
+.metric strong{display:block;font:2.4rem/1 Georgia,serif;margin-bottom:6px}
+.metric span{font-size:.88rem;color:var(--muted)}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:12px;background:var(--surface);margin-top:12px}
+table{border-collapse:collapse;width:100%;text-align:left;font-size:.93rem}
+caption{text-align:left;padding:12px 13px;font-weight:700;color:var(--sea)}
+th,td{padding:10px 13px;border-bottom:1px solid var(--line);vertical-align:top}
+thead th{background:#eaece2;font-size:.84rem}
+tbody tr:last-child td,tbody tr:last-child th{border-bottom:0}
+.numbers{font-variant-numeric:tabular-nums;white-space:nowrap}
+.compact{font-size:.88rem}
+.section-group{margin-top:23px}
+.timeline{display:grid;gap:1px;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--line)}
+.cycle{display:grid;grid-template-columns:120px minmax(0,1fr);gap:20px;padding:17px 20px;background:var(--surface)}
+.cycle strong{color:var(--sea)}
+.cycle p{margin-top:4px;color:var(--muted)}
+.tag{display:inline-flex;align-items:center;line-height:1.25;border:1px solid #bfcec4;background:var(--pale);padding:4px 8px;border-radius:999px;font-size:.73rem;font-weight:700;color:#244e44;max-width:100%}
+.tag.reserve{background:var(--amber-pale);border-color:#dfcaac;color:#774917}
+.tag.full{background:#eeeaf2;border-color:#d5cadc;color:#624874}
+.controls{display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr;gap:12px;margin-bottom:12px}
+label{display:block;font-size:.86rem;font-weight:690}
+input,select,button{font:inherit;color:var(--ink)}
+input[type=search],input[type=number],select{width:100%;min-height:42px;margin-top:6px;padding:7px 9px;background:var(--surface);border:1px solid #81938c;border-radius:8px;font-size:.92rem}
+input:focus,select:focus,button:focus-visible,summary:focus-visible,a:focus-visible{outline:3px solid #ce842f;outline-offset:2px}
+button{background:var(--sea);border:1px solid var(--sea);color:white;padding:8px 13px;border-radius:8px;font-size:.86rem;font-weight:700;cursor:pointer}
+button:hover{background:#174f48}
+.quiet-button{background:var(--surface);color:var(--sea)}
+.quiet-button:hover{background:var(--pale)}
+.count{margin:6px 0 12px;color:var(--muted);font-size:.88rem}
+.catalog{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.card{display:flex;flex-direction:column;padding:16px 16px 13px;min-width:0}
+.card .tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:9px}
+.card h3{font-size:1.13rem}
+.card .opener{color:var(--muted);font-size:.84rem;margin:6px 0 9px}
+.price{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;margin:5px 0 11px}
+.price span{background:#f0eee5;border:1px solid #e4e0d4;text-align:center;padding:6px 3px;border-radius:6px;font-size:.76rem}
+.price b{display:block;font-size:1.2rem;line-height:1.15}
+.price .zero{background:repeating-linear-gradient(135deg,#faf8f1,#faf8f1 5px,#f3f0e8 5px,#f3f0e8 6px);color:var(--muted)}
+.card .effect{font-size:.88rem;margin-bottom:11px}
+.card .cost-label{font-size:.75rem;color:var(--muted)}
+.card details{margin-top:auto;padding:8px 0;border-top:1px solid var(--line);font-size:.82rem}
+summary{font-weight:700;color:var(--sea);cursor:pointer}
+.card details p{margin-top:5px}
+.card button{margin-top:7px;align-self:flex-start}
+.experiment{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:18px;align-items:start}
+.fields{display:grid;gap:8px;grid-template-columns:repeat(4,minmax(0,1fr));align-items:end;margin:14px 0}
+.option{display:flex;align-items:center;gap:8px;margin:11px 0;font-weight:550;color:var(--muted)}
+.option[hidden]{display:none}
+.small{font-size:.86rem;color:var(--muted)}
+.sources{display:flex;flex-wrap:wrap;gap:8px 18px;list-style:none;margin:7px 0 0;padding:0}
+footer{background:var(--night);color:#d7e6dd;padding:25px 0;font-size:.89rem}
+@media(max-width:850px){.catalog{grid-template-columns:repeat(2,minmax(0,1fr))}.controls{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:640px){.wrap{width:calc(100% - 28px)}.grid,.experiment,.catalog{grid-template-columns:minmax(0,1fr)}main{padding-top:31px}section{margin-bottom:40px}.panel,.metric{padding:13px}.metric strong{font-size:1.75rem}.metrics{gap:6px}.cycle{grid-template-columns:1fr;gap:2px;padding:12px 14px}.nav ul{gap:17px}.fields{grid-template-columns:repeat(2,minmax(0,1fr))}.hero{padding-bottom:30px}}
+@media print{body{background:white;font-size:11px}.hero{background:white;color:var(--ink);padding:8px 0 20px}.hero p,.hero .eyebrow,.hero-meta,footer{color:var(--ink)}.hero::after,.nav,.controls,.card button,.skip,.experiment button{display:none}.wrap{width:100%}.catalog{grid-template-columns:repeat(3,minmax(0,1fr))}.card,.panel,.cycle{break-inside:avoid}section{margin-bottom:26px}h1{font-size:36px}h2{font-size:25px}.table-wrap{overflow:visible}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">К содержанию</a>
+<header class="hero">
+  <div class="wrap">
+    <span class="eyebrow">Вавилонская башня · материалы плейтеста</span>
+    <h1>Высокая вода</h1>
+    <p>Сценарий, экономика и карточки в одной версии для обсуждения. Шесть фракций делят работы между башней, своими проектами и защитой города.</p>
+    <div class="hero-meta"><span>Циклы 0–6</span><span>90 минут по плану</span><span>Для ведущего и команды разработки</span><span>Цены и эффекты пробные</span></div>
+  </div>
+</header>
+<nav class="nav" aria-label="Разделы"><div class="wrap"><ul>
+  <li><a href="#resources">Ресурсы</a></li><li><a href="#scenario">Сюжет</a></li><li><a href="#cycles">Циклы</a></li><li><a href="#rules">Правила</a></li><li><a href="#cards">Карточки</a></li><li><a href="#experiment">Эксперимент</a></li><li><a href="#balance">Баланс</a></li>
+</ul></div></nav>
+<main id="main" class="wrap">
+  <section id="resources" aria-labelledby="resources-heading">
+    <div class="section-head"><span class="eyebrow">Экономика</span><h2 id="resources-heading">Два материала и рабочие действия</h2><p>А — древесина, Б — камень, Р — рабочие действия. Цена указана за одну целую единицу прогресса. Древесина и камень переходят между циклами. Неиспользованная работа сгорает, а на новом цикле начисляется заново.</p></div>
+    <div class="metrics">
+      <div class="metric"><strong>17</strong><span>карточек демо требуют оба материала</span></div>
+      <div class="metric"><strong>6</strong><span>карточек демо требуют только один материал</span></div>
+      <div class="metric"><strong>23</strong><span>карточки демо требуют рабочих действий</span></div>
+    </div>
+    <div class="note"><p><strong>Древесина и работа.</strong> P2 Зал чертежей, P5 Караванная контора, R3 Каменоломня, O5 Мастерская учебных книг.</p><p><strong>Камень и работа.</strong> P3 Ремонтный двор гильдии, R4 Лесной двор.</p><p>Запасные R6 и R7 тоже используют по одному материалу. Карточек только за рабочие действия пока нет. Подсчёт для демо включает условные проекты разных исходов, поэтому одновременно в одной партии их будет меньше.</p></div>
+    <div class="table-wrap"><table class="numbers">
+      <caption>Стартовые запасы и начисление по фракциям</caption>
+      <thead><tr><th scope="col">Фракция</th><th scope="col">Старт А / Б</th><th scope="col">За цикл А / Б / Р</th><th scope="col">Интерес</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Администрация</th><td>3 / 3</td><td>1 / 1 / 3</td><td>Башня и городские проекты</td></tr>
+        <tr><th scope="row">Архитекторы</th><td>2 / 3</td><td>1 / 1 / 3</td><td>Чертежи и благоустройство</td></tr>
+        <tr><th scope="row">Строители</th><td>2 / 4</td><td>1 / 2 / 4</td><td>Стройка, карьер и снабжение</td></tr>
+        <tr><th scope="row">Жители</th><td>2 / 2</td><td>1 / 1 / 4</td><td>Проходы и набережная</td></tr>
+        <tr><th scope="row">Торговцы</th><td>4 / 2</td><td>2 / 1 / 3</td><td>Грузовой двор и караваны</td></tr>
+        <tr><th scope="row">Орден</th><td>3 / 2</td><td>1 / 1 / 3</td><td>Ресурсы, представительства, влияние</td></tr>
+      </tbody>
+    </table></div>
+    <p class="small section-group">До 1-го цикла у стола вместе 16 А и 16 Б без накопленной работы. Базовое начисление всего стола — 7 А, 7 Б и 20 Р за цикл. Конкретные чужие запасы закрыты для игроков. <a href="../../swarm_work/c1_integration/integrated.md">Параметры интеграции</a></p>
+  </section>
+
+  <section id="scenario" aria-labelledby="scenario-heading">
+    <div class="section-head"><span class="eyebrow">Варианты истории</span><h2 id="scenario-heading">Два повода договариваться</h2></div>
+    <div class="grid">
+      <article class="panel"><span class="eyebrow">Взято для расчётов</span><h3>Высокая вода</h3><p>Двор на возвышении удешевляет защиту в цикл наводнения. Успех сохраняет обычные поступления. Пропуск срока приносит потери, открывает ремонт причала и меняет условия сотрудничества. Затем обе ветки возвращаются к городским проектам с разными остатками и очками.</p><p><a href="../../swarm_work/a2_story_crisis/story.md">Сценарий «Высокая вода»</a></p></article>
+      <article class="panel"><span class="eyebrow">Альтернатива</span><h3>Город двух берегов</h3><p>Игроки сами создают конфликт, если раньше общего прохода строят грузовой двор. Координация двух параллельных проектов позволяет заранее избежать перегрузки. Линия проверяет инициативу, компромисс и последствия вложений.</p><p><a href="../../swarm_work/a1_story_city/story.md">Сценарий «Город двух берегов»</a></p></article>
+    </div>
+    <div class="table-wrap"><table>
+      <caption>Площадки башни и стартовое благополучие</caption>
+      <thead><tr><th scope="col">Место</th><th scope="col">Адм.</th><th scope="col">Арх.</th><th scope="col">Стр.</th><th scope="col">Жит.</th><th scope="col">Торг.</th><th scope="col">Последствие выбора</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Городская площадь</th><td>+1</td><td>+2</td><td>0</td><td>−2</td><td>+1</td><td>Удобная доставка, меньше общественного пространства.</td></tr>
+        <tr><th scope="row">Жилой квартал</th><td>0</td><td>−1</td><td>+2</td><td>−1</td><td>−1</td><td>Удобный выезд для работ, затронуто жильё.</td></tr>
+        <tr><th scope="row">Старые руины</th><td>−1</td><td>+2</td><td>−2</td><td>−1</td><td>+2</td><td>Новый маршрут, сложная логистика и спор о наследии.</td></tr>
+        <tr><th scope="row">Другой берег</th><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>Компромисс сохраняет жильё и наследие. Между фундаментом и каркасом нужно усиление T1X.</td></tr>
+      </tbody>
+    </table></div>
+    <p class="small section-group">Орден имеет отдельный интерес и не входит в этот расчёт благополучия. Площадки и начисления остаются вариантами для репетиции. <a href="../../swarm_work/b4_tower/tower.md">Площадки и этапы башни</a></p>
+  </section>
+
+  <section id="cycles" aria-labelledby="cycles-heading">
+    <div class="section-head"><span class="eyebrow">Порядок прогона</span><h2 id="cycles-heading">Семь циклов демо</h2><p>Игроки получают открытый календарь башни и узнают новые события и условия на входе в цикл. Таблица ниже предназначена для ведущего.</p></div>
+    <div class="timeline">
+      <article class="cycle"><strong>Цикл 0</strong><div><h3>Выбор места</h3><p>Четыре голоса из шести. После первой неудачи — ещё переговоры и голосование. При повторной неудаче выбирается компромиссная площадка.</p></div></article>
+      <article class="cycle"><strong>Цикл 1</strong><div><h3>Первые поставки</h3><p>Открываются T1, P1, P2, P5, P6, R3–R5 и O1. Первые решения между башней, добычей и благополучием.</p></div></article>
+      <article class="cycle"><strong>Цикл 2</strong><div><h3>Двор на возвышении</h3><p>Добавляются R2, P3, P4 и O2. Можно вложиться в Сухой двор, продолжить начатое или согласовать представительство.</p></div></article>
+      <article class="cycle"><strong>Цикл 3</strong><div><h3>Река прибывает</h3><p>Открытые проекты сохраняются. Сухой двор нужно закончить к концу цикла. Затем смена ролей и передача остатков, прогресса и обещаний.</p></div></article>
+      <article class="cycle"><strong>Цикл 4</strong><div><h3>Высокая вода</h3><p>Открываются C1, O3 и O5, а T2 появляется только после предшественника. У послов разные обозначения ресурсов. Внутри команды речь остаётся обычной. C1 требует две единицы до конца этого цикла.</p></div></article>
+      <article class="cycle"><strong>Цикл 5</strong><div><h3>Набережная и ремонт</h3><p>P7 и P8 доступны в обеих ветках. При пропуске C1 вступают известные потери, открываются R1 и O4. R1 ремонтирует старый причал, P6 отдельно улучшает маршрут.</p></div></article>
+      <article class="cycle"><strong>Цикл 6</strong><div><h3>Последний караван</h3><p>P9 закрывается к концу цикла. Остаточное ограничение торговли снимает завершённый R1. Ведущий показывает состояние города и собирает обратную связь.</p></div></article>
+    </div>
+    <div class="table-wrap"><table>
+      <caption>Если защита дворов C1 не завершена вовремя</caption>
+      <thead><tr><th scope="col">Фракция</th><th scope="col">Цикл 5</th><th scope="col">Цикл 6 без R1</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Администрация</th><td>−1 благополучия</td><td>—</td></tr>
+        <tr><th scope="row">Архитекторы</th><td>−1 благополучия</td><td>—</td></tr>
+        <tr><th scope="row">Строители</th><td>−1 Б к поступлению</td><td>—</td></tr>
+        <tr><th scope="row">Жители</th><td>−1 Р к поступлению, −1 благополучия</td><td>—</td></tr>
+        <tr><th scope="row">Торговцы</th><td>−1 А к поступлению, −1 благополучия</td><td>−1 А к поступлению</td></tr>
+        <tr><th scope="row">Орден</th><td>−1 Р к поступлению</td><td>—</td></tr>
+      </tbody>
+    </table></div>
+    <p class="small section-group">Бюджет времени — 10 минут на ввод, 12 на площадку, 24 на первые три цикла, 5 на смену ролей, 27 на циклы 4–6, 8 на обсуждение и 4 резерва. <a href="../../swarm_work/playtest/host_notes.md">Время и наблюдения</a> · <a href="../../swarm_work/playtest/briefings.md">Реплики и памятки</a></p>
+  </section>
+
+  <section id="rules" aria-labelledby="rules-heading">
+    <div class="section-head"><span class="eyebrow">Как читать карточки</span><h2 id="rules-heading">Действия, видимость и права</h2></div>
+    <div class="grid">
+      <article class="panel"><h3>Фазы и вклад</h3><p>Начислить ресурсы и показать вводные → подготовить позицию → провести переговоры послов → распределить ресурсы и подтвердить решение лидером → зафиксировать итоги. Целую единицу можно оплатить одним или несколькими согласованными вкладами. Для многоединичного проекта прогресс сохраняется.</p></article>
+      <article class="panel"><h3>Текущие сделки</h3><p>После взаимного подтверждения исходящие ресурсы резервируются. Текущие подтверждённые договорённости обязательны. Будущие обещания остаются на доверии. В расчёте передачи исполняются при закрытии переговоров, затем участники оплачивают проекты. Порядок одновременных заявок ещё выбирается.</p></article>
+      <article class="panel"><h3>Доход от R3–R5</h3><p>В числовом прогоне объявленный получатель платит целую единицу со своего баланса, в том числе полученными по сделке ресурсами. Перевод сам по себе не даёт дохода. В каталоге есть другой вариант с прямыми совместными вкладами и указанным получателем. Правило для сайта нужно зафиксировать отдельно.</p></article>
+      <article class="panel"><h3>Кто что видит</h3><p>Все видят открытые карточки с полными эффектами по затронутым фракциям, открытые очки и прогресс башни. Личный проект видит владелец. Условия O2, O4 и O5 доступны Ордену и партнёру до согласия, факт представительства публичен. Внешний эффект O3 объявляется при вступлении в силу.</p></article>
+      <article class="panel"><h3>Очки и победа</h3><p>Пять фракций сравнивают своё открытое благополучие с общим пробным порогом 7. В полной партии собственная цель или построенная башня даёт обычную победу, обе вместе — большую. У Ордена обязательно влияние, а непостроенная башня усиливает его победу. Демо показывает состояние после цикла 6.</p></article>
+      <article class="panel"><h3>Башня и сроки</h3><p>Фундамент → каркас → этажи → инженерные системы. На компромиссной площадке после фундамента добавляется усиление. У этапов башни нет текущих бонусов. Сроки обычных карточек проверяются по их условиям. В расчётной версии закрытый по сроку проект не возвращает стоимость завершённых единиц.</p></article>
+    </div>
+    <div class="note"><p>Выдавайте игрокам отдельную памятку и экран своей роли. В этом своде собраны личные проекты, точные стартовые параметры и условия Ордена. <a href="../../swarm_work/a4_contract/contract.md">Формат и открытые решения</a></p></div>
+  </section>
+
+  <section id="cards" aria-labelledby="cards-heading">
+    <div class="section-head"><span class="eyebrow">Цены и эффекты</span><h2 id="cards-heading">Каталог карточек</h2><p>Поле демо включает условные карты обеих веток. Выберите «Весь набор» для этапов циклов 7–12 и двух резервных карточек. Цена показана на одну единицу, а эффекты — по завершении проекта, если на карте не сказано иначе.</p></div>
+    <div class="controls" aria-label="Фильтры карточек">
+      <label>Найти<input id="search" type="search" placeholder="Например, каменоломня"></label>
+      <label>Набор<select id="scope"><option value="demo">Карточки демо</option><option value="all">Весь набор</option><option value="full">Полная партия</option><option value="reserve">Запасные</option></select></label>
+      <label>Семейство<select id="family"><option value="all">Любое</option><option value="P">Благополучие</option><option value="R">Ресурсы и ремонт</option><option value="T">Башня</option><option value="C">Кризис</option><option value="O">Орден</option></select></label>
+      <label>Материалы<select id="materials"><option value="all">Любые требования</option><option value="both">Оба материала</option><option value="wood">Только древесина</option><option value="stone">Только камень</option><option value="none">Без материалов</option></select></label>
+    </div>
+    <p id="count" class="count" role="status" aria-live="polite"></p>
+    <div id="catalog" class="catalog"></div>
+    <noscript><p class="note">Для фильтров и калькулятора включите JavaScript. Карточки доступны в <a href="../../swarm_work/c1_integration/integrated.md">пакете плейтеста</a>.</p></noscript>
+  </section>
+
+  <section id="experiment" aria-labelledby="experiment-heading">
+    <div class="section-head"><span class="eyebrow">Проба цены</span><h2 id="experiment-heading">Измените цену одной единицы</h2><p>Выберите карточку, количество единиц и новую цену. Например, поставьте ноль в поле камня. Расчёт сравнивает две сметы. Он не пересчитывает доходы, эффекты, дедлайны или поведение игроков.</p></div>
+    <div class="experiment">
+      <div class="panel">
+        <label>Проект<select id="calc-card"></select></label>
+        <label id="discount-label" class="option" hidden><input id="discount" type="checkbox"> Сухой двор готов к началу цикла 4</label>
+        <div class="fields">
+          <label>Единиц<input id="units" type="number" min="1" max="1" step="1" value="1"></label>
+          <label>Древесина<input id="wood" type="number" min="0" max="99" step="1" value="0"></label>
+          <label>Камень<input id="stone" type="number" min="0" max="99" step="1" value="0"></label>
+          <label>Работа<input id="work" type="number" min="0" max="99" step="1" value="0"></label>
+        </div>
+        <button type="button" class="quiet-button" id="reset">Сбросить к исходному</button>
+      </div>
+      <div class="panel" aria-live="polite">
+        <h3 id="calc-title">Сравнение</h3>
+        <div class="table-wrap"><table class="numbers compact">
+          <thead><tr><th scope="col">Ресурс</th><th scope="col">База</th><th scope="col">Проба</th><th scope="col">Разница</th></tr></thead>
+          <tbody id="calc-result"></tbody>
+        </table></div>
+        <p id="calc-note" class="small">Рабочие действия нельзя переносить между циклами. Сумма работы по многоединичному проекту может быть оплачена в разных циклах, если сохранены прогресс и условия карточки.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="balance" aria-labelledby="balance-heading">
+    <div class="section-head"><span class="eyebrow">Результат расчётов</span><h2 id="balance-heading">Где искать дисбаланс</h2><p>Проверены 84 состояния команд и 55 оплаченных единиц. Это два воспроизведённых набора решений. Темп встречи и переговоры нужно наблюдать на плейтесте.</p></div>
+    <div class="table-wrap"><table>
+      <caption>Состояние на конец цикла 6</caption>
+      <thead><tr><th scope="col">Показатель</th><th scope="col">Площадь, защита готова</th><th scope="col">Компромисс, срок защиты пропущен</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Кризис и ремонт</th><td>C1 — 2/2</td><td>C1 — 1/2, ремонт R1 завершён</td></tr>
+        <tr><th scope="row">Башня</th><td>Фундамент и каркас готовы</td><td>Фундамент и усиление готовы, каркас 1/2</td></tr>
+        <tr><th scope="row">Благополучие</th><td>5 / 10 / 4 / 2 / 8</td><td>3 / 5 / 4 / 7 / 8</td></tr>
+        <tr><th scope="row">Орден</th><td>2 представительства</td><td>2 представительства</td></tr>
+        <tr><th scope="row">Общий остаток А / Б</th><td>18 / 36</td><td>18 / 28</td></tr>
+        <tr><th scope="row">Работа потрачена</th><td>87 из 120</td><td>84 из 120</td></tr>
+      </tbody>
+    </table></div>
+    <p class="small section-group">Благополучие в порядке: администрация, архитекторы, строители, жители, торговцы. Караван оплачен в обоих расчётах. Площадки и решения отличаются, поэтому сравнение показывает диапазон исходов, а вклад только кризиса требует отдельного прогона. <a href="../../swarm_work/c2_balance/balance.md">Расчёт и условия</a></p>
+    <div class="grid section-group">
+      <article class="panel"><h3>Сухой двор</h3><p>Вклад 1 А, 1 Б и 2 Р экономит на двух единицах защиты 2 А. Чистая экономия древесины — 1 А, а рабочий пик в кризисе остаётся прежним. Проверьте, ощущается ли ценность ранней подготовки.</p></article>
+      <article class="panel"><h3>Ремонт причала</h3><p>В контрольном повторе торговцы по итогу сохраняют столько же древесины без ремонта. Для оправдания вклада сравните альтернативу, где выгода также зависит от сроков или помогает другим участникам.</p></article>
+      <article class="panel"><h3>Работа и запасы</h3><p>Камень остался в обоих расчётах, но рабочие действия нужны одновременно разным проектам. Можно сначала проверить отдельные цены и сроки, затем повторить ту же трассу с одной заменой.</p></article>
+      <article class="panel"><h3>Переговоры после ротации</h3><p>На короткой репетиции циклов 3–5 измерьте время до первой подтверждённой сделки, доступные альтернативы и понятность правила оплаты совместной единицы.</p></article>
+    </div>
+    <div class="note warn"><p><strong>Перед цифровой репетицией.</strong> Нужен единый порядок подтверждения и исполнения встречных заявок, ясное правило дохода R3–R5 и отдельная проверка доступа с двух сетей. <a href="../../swarm_work/c3_audit/audit.md">Аудит решений и рисков</a> · <a href="../../swarm_work/c4_sites/feasibility.md">Проверка Sites</a></p></div>
+  </section>
+
+  <section aria-labelledby="sources-heading">
+    <div class="section-head"><h2 id="sources-heading">Источники</h2></div>
+    <ul class="sources">
+      <li><a href="../../GAME_MECHANICS_PLAN.md">План механик</a></li>
+      <li><a href="../../swarm_work/c1_integration/integrated.md">Интеграция</a></li>
+      <li><a href="../../swarm_work/a3_melissa/catalog.md">Разбор карточек Мелиссы</a></li>
+      <li><a href="../../swarm_work/b1_resources/cards.md">Ресурсные проекты</a></li>
+      <li><a href="../../swarm_work/b2_factions/cards.md">Проекты благополучия</a></li>
+      <li><a href="../../swarm_work/b3_order/cards.md">Карточки Ордена</a></li>
+      <li><a href="../../swarm_work/b4_tower/tower.md">Башня и площадки</a></li>
+      <li><a href="../../swarm_work/b5_events/events.md">События и кризис</a></li>
+    </ul>
+  </section>
+</main>
+<footer><div class="wrap">Вавилонская башня · внутренний рабочий свод для подготовки первого плейтеста</div></footer>
+<script>
+const teams = ['Администрация', 'Архитекторы', 'Строители', 'Жители', 'Торговцы'];
+const open = 'Всем';
+const everyone = 'Все фракции';
+const score = (values) => teams.map((team, index) => {
+  const value = values[index];
+  return value ? team + ' ' + (value > 0 ? '+' + value : '−' + Math.abs(value)) : '';
+}).filter(Boolean).join(' · ');
+const sourceFolders = {
+  P: 'b2_factions/cards.md', R: 'b1_resources/cards.md', O: 'b3_order/cards.md', T: 'b4_tower/tower.md', C: 'b5_events/events.md'
+};
+const data = [
+  ['P1','Городская мастерская заказов',2,[1,1,2],'С цикла 1','Администрация','Администрация','Администрация +2 благополучия.','Проработка B2'],
+  ['P2','Зал чертежей',2,[2,0,2],'С цикла 1','Архитекторы','Архитекторы','Архитекторы +3 благополучия.','Проработка B2'],
+  ['P3','Ремонтный двор гильдии',2,[0,2,2],'С цикла 2','Строители','Строители','Строители +2 благополучия.','Проработка B2'],
+  ['P4','Дворовые проходы',2,[1,1,2],'С цикла 2','Жители','Жители','Жители +3 благополучия.','Проработка B2'],
+  ['P5','Караванная контора',2,[2,0,2],'С цикла 1','Торговцы','Торговцы','Торговцы +2 благополучия.','Проработка B2'],
+  ['P6','Береговая переправа',2,[2,1,3],'С цикла 1',open,everyone,score([1,1,1,2,1]) + '. Улучшает маршрут и не заменяет ремонт причала R1.','Мелисса П02, П19'],
+  ['P7','Грузовой двор',2,[2,1,3],'С цикла 5 в обеих ветках',open,everyone,score([1,-1,1,-2,3]) + '. Может сосуществовать с общедоступной набережной.','Мелисса П24'],
+  ['P8','Общая набережная',2,[1,2,3],'С цикла 5 в обеих ветках',open,everyone,score([1,3,0,2,-1]) + '. Может сосуществовать с грузовым двором.','Мелисса П20'],
+  ['P9','Последний караван сезона',2,[1,2,3],'Цикл 6 · до конца цикла',open,everyone,score([1,0,2,0,2]) + '. При пропуске рейс уходит, карта закрывается.','Сюжет «Высокая вода»'],
+  ['R1','Восстановление переправы',1,[1,1,3],'Цикл 5 · если C1 пропущен · до конца цикла',open,'Жители, торговцы','Ремонт старого причала. Жители +1 благополучия, у торговцев нет остаточной потери А в цикле 6.','События «Высокой воды»','demo','C'],
+  ['R2','Сухой двор',1,[1,1,2],'С цикла 2 · до конца цикла 3',open,everyone,'Если готов к началу 4-го цикла, каждая единица C1 стоит 1/1/4 вместо 2/1/4. Прямых начислений нет.','Мелисса П07 и сюжет A2'],
+  ['R3','Каменоломня',2,[1,0,2],'С цикла 1',open,'Объявленные получатели','Каждому получателю оплаченной единицы +1 Б в каждом из двух следующих циклов после завершения, до одной выплаты на команду за цикл.','Мелисса П03'],
+  ['R4','Лесной двор',2,[0,1,1],'С цикла 1',open,'Объявленные получатели','Каждому получателю оплаченной единицы +1 А в каждом из двух следующих циклов после завершения, до одной выплаты на команду за цикл.','Мелисса П04, П17'],
+  ['R5','Артель рабочих',1,[2,1,3],'С цикла 1',open,'Один получатель','Получатель оплаченной единицы получает +1 Р в каждом из двух следующих циклов после завершения.','Мелисса П10'],
+  ['R6','Чертёжная мастерская',1,[0,1,2],'С цикла 3, если добавлена в поле',open,'Один получатель','Получатель оплаченной единицы получает +1 Р в каждом из двух следующих циклов после завершения.','Мелисса П06','reserve'],
+  ['R7','Разбор старой кладки',1,[2,0,2],'С цикла 2 · до конца цикла 4, если добавлена в поле',open,'Один получатель','Разово +2 Б в следующем цикле. При пропуске срока возможность закрывается.','Сюжет «Высокая вода»','reserve'],
+  ['C1','Защита прибрежных дворов',2,[2,1,4],'Цикл 4 · до конца цикла',open,everyone,'При своевременной защите потерь E5 и E6 нет. При пропуске применяются известные потери фракций и открываются R1 и O4.','События «Высокой воды»'],
+  ['T1','Фундамент',2,[2,2,6],'С цикла 1',open,everyone,'Готово основание башни. Никаких дополнительных начислений.','Функция Б1 у Мелиссы'],
+  ['T1X','Усиление фундамента',1,[2,1,7],'Только компромиссный берег · после T1',open,everyone,'Основание готово к каркасу.','Дополнительный этап компромисса'],
+  ['T2','Каркас',2,[3,1,7],'С цикла 4 · после T1 или после T1X на компромиссе',open,everyone,'Готов несущий каркас. Никаких дополнительных начислений.','Функция Б2 у Мелиссы'],
+  ['T3','Этажи',2,[2,3,8],'С цикла 7 · после T2',open,everyone,'Возведены этажи.','Функция Б3 у Мелиссы','full'],
+  ['T4','Инженерные системы',2,[2,3,9],'С цикла 10 · после T3',open,everyone,'Башня завершена.','Функция Б4 у Мелиссы','full'],
+  ['O1','Храмовый склад',1,[1,1,2],'С цикла 1','Орден','Орден','В каждом из двух следующих циклов после завершения Орден получает +1 Б.','Мелисса П07'],
+  ['O2','Кухня при дворах',1,[2,1,3],'С цикла 2','Орден и жители','Жители, Орден','Жители +2 благополучия. После создания представительства до 1 Р переходит Ордену в каждом следующем цикле.','Мелисса П16, П23'],
+  ['O3','Архивные изыскания',1,[1,2,2],'С цикла 4','Орден','Орден; внешнее последствие для всего стола','В следующем цикле непостроенные единицы выбранного открытого этапа башни стоят на 1 Р дороже. Эффект истекает, если этап уже готов.','Проработка Ордена'],
+  ['O4','Разбор хранилищ',1,[1,2,3],'С цикла 5 · только если C1 пропущен','Орден и торговцы','Торговцы, Орден','Торговцы +2 благополучия и дают представительство. До 1 Р переходит Ордену в каждом следующем цикле. Доплата за восстановление не отменяет остаточный штраф напрямую.','Проработка Ордена и событий'],
+  ['O5','Мастерская учебных книг',1,[2,0,3],'С цикла 4 в обеих ветках','Орден и архитекторы','Архитекторы, Орден','Архитекторы +2 благополучия и дают представительство. До 1 Р переходит Ордену в каждом следующем цикле.','Мелисса П12'],
+].map(([id,name,units,cost,opener,visibility,recipient,effect,source,status='demo',sourceFamily=id[0]]) =>
+  ({id,name,units,cost,opener,visibility,recipient,effect,source,status,sourceFamily}));
+const get = (id) => document.getElementById(id);
+const families = {P: 'Благополучие', R:'Ресурсы и ремонт', T:'Башня', C:'Кризис', O:'Орден'};
+const scopeLabels = {demo:'Демо', reserve:'Запасная', full:'Полная партия'};
+const names = ['Древесина','Камень','Работа'];
+const params = ['wood','stone','work'];
+const materialType = (card) => card.cost[0] > 0 ? (card.cost[1] > 0 ? 'both' : 'wood') : (card.cost[1] > 0 ? 'stone' : 'none');
+
+function node(tag, text, className){
+  const element = document.createElement(tag);
+  if (text !== undefined) element.textContent = text;
+  if (className) element.className = className;
+  return element;
+}
+function detailLine(label, text){
+  const line = node('p');
+  line.append(node('strong', label + ' '), document.createTextNode(text));
+  return line;
+}
+function contributors(card){
+  if (['O2','O4','O5'].includes(card.id)) return card.visibility + ', каждый вносит вклад после согласия партнёра.';
+  if (['R3','R4','R5'].includes(card.id)) return 'В расчёте платит объявленный получатель. Другие команды могут передать ресурсы по сделке.';
+  return card.visibility === open ? 'Любая команда. Возможен согласованный совместный вклад.' : 'Команда-владелец карточки.';
+}
+function cardElement(card){
+  const box = node('article', undefined, 'card');
+  box.dataset.card = card.id;
+  const tags = node('div', undefined, 'tags');
+  tags.append(node('span', card.id, 'tag'), node('span', families[card.id[0]], 'tag'));
+  if (card.status !== 'demo') tags.append(node('span', scopeLabels[card.status], 'tag ' + card.status));
+  const price = node('div', undefined, 'price');
+  card.cost.forEach((amount, index) => {
+    const cell = node('span', undefined, amount ? '' : 'zero');
+    cell.append(node('b', String(amount)), document.createTextNode(names[index]));
+    price.append(cell);
+  });
+  const details = node('details');
+  const source = node('p');
+  const anchor = node('a', 'Источник карточки');
+  anchor.href = '../../swarm_work/' + sourceFolders[card.sourceFamily];
+  source.append(node('strong','Идея '), document.createTextNode(card.source + ' · '), anchor);
+  details.append(node('summary','Кому доступна и кто получит эффект'), detailLine('Видят', card.visibility + '.'), detailLine('Могут платить',contributors(card)), detailLine('Получатели', card.recipient + '.'), source);
+  const button = node('button','Проверить цену','quiet-button');
+  button.type = 'button';
+  button.setAttribute('aria-label','Проверить цену ' + card.id + ' ' + card.name);
+  button.addEventListener('click', () => {
+    get('calc-card').value = card.id;
+    get('discount').checked = false;
+    loadCard();
+    get('experiment-heading').scrollIntoView({block:'start'});
+    get('calc-card').focus({preventScroll:true});
+  });
+  box.append(tags, node('h3', card.name), node('p',card.opener,'opener'), node('p','За 1 единицу · всего ' + card.units,'cost-label'), price, node('p',card.effect,'effect'), details,button);
+  return box;
+}
+function filterCards(){
+  const query = get('search').value.trim().toLocaleLowerCase('ru');
+  const scope = get('scope').value;
+  const family = get('family').value;
+  const materials = get('materials').value;
+  const visible = data.filter(card =>
+    (scope === 'all' || card.status === scope) &&
+    (family === 'all' || card.id[0] === family) &&
+    (materials === 'all' || materialType(card) === materials) &&
+    (!query || [card.id,card.name,card.opener,card.source,card.effect,card.recipient].join(' ').toLocaleLowerCase('ru').includes(query)));
+  get('catalog').replaceChildren(...visible.map(cardElement));
+  get('count').textContent = visible.length ? 'Найдено: ' + visible.length : 'Карточек с такими требованиями нет.';
+}
+function selectedCard(){
+  return data.find(card => card.id === get('calc-card').value);
+}
+function baseline(card){
+  return card.id === 'C1' && get('discount').checked ? [1,1,4] : card.cost;
+}
+function readInt(id, fallback){
+  const input = get(id);
+  const value = Math.trunc(input.valueAsNumber);
+  return Number.isFinite(value) ? Math.min(Number(input.max), Math.max(Number(input.min), value)) : fallback;
+}
+function renderCalculation(){
+  const card = selectedCard();
+  const base = baseline(card);
+  const units = readInt('units', 1);
+  const costs = params.map((id, index) => readInt(id, base[index]));
+  const rows = costs.map((amount, index) => {
+    const original = base[index] * units;
+    const newPrice = amount * units;
+    const delta = newPrice - original;
+    const row = node('tr');
+    const label = node('th', names[index]);
+    label.scope = 'row';
+    row.append(label,node('td',String(original)),node('td',String(newPrice)),node('td',delta > 0 ? '+' + delta : delta < 0 ? '−' + Math.abs(delta) : '0'));
+    return row;
+  });
+  get('calc-title').textContent = card.id + ' · ' + units + ' из ' + card.units + ' ед.';
+  get('calc-result').replaceChildren(...rows);
+}
+function setBasePrice(){
+  baseline(selectedCard()).forEach((amount,index) => { get(params[index]).value = amount; });
+  renderCalculation();
+}
+function loadCard(){
+  const card = selectedCard();
+  get('units').max = card.units;
+  get('units').value = card.units;
+  get('discount-label').hidden = card.id !== 'C1';
+  setBasePrice();
+}
+['search','scope','family','materials'].forEach(id => get(id).addEventListener('input',filterCards));
+['units',...params].forEach(id => {
+  get(id).addEventListener('input',renderCalculation);
+  get(id).addEventListener('change',() => {
+    const defaultValue = id === 'units' ? selectedCard().units : baseline(selectedCard())[params.indexOf(id)];
+    get(id).value = readInt(id, defaultValue);
+    renderCalculation();
+  });
+});
+data.forEach(card => {
+  const option = node('option', card.id + ' · ' + card.name);
+  option.value = card.id;
+  get('calc-card').append(option);
+});
+get('calc-card').value = 'C1';
+get('calc-card').addEventListener('change',() => {
+  get('discount').checked = false;
+  loadCard();
+});
+get('discount').addEventListener('change',setBasePrice);
+get('reset').addEventListener('click',loadCard);
+filterCards();
+loadCard();
+</script>
+</body>
+</html>

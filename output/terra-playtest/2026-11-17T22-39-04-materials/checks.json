@@ -1,0 +1,660 @@
+{
+  "verdict": "PASS",
+  "summary": [
+    {
+      "cycle": 2,
+      "offers": 1,
+      "executed": 1,
+      "abstentions": 0,
+      "jointAgreed": 3,
+      "projects": [
+        "G01",
+        "M1",
+        "D1",
+        "G02"
+      ],
+      "offersDetails": [
+        {
+          "id": "23",
+          "from": "B",
+          "to": "M",
+          "give": [
+            1,
+            0,
+            0
+          ],
+          "take": [
+            0,
+            1,
+            0
+          ],
+          "cycle": 2,
+          "status": "accepted"
+        }
+      ],
+      "agreements": [
+        {
+          "id": "J2-3",
+          "by": "J",
+          "projectId": "D1",
+          "shares": {
+            "J": [
+              1,
+              1,
+              2
+            ],
+            "O": [
+              0,
+              0,
+              1
+            ]
+          },
+          "why": "Кухня даст жителям два благополучия и откроет представительство, а Ордену обеспечит последующий поток рабочих действий.",
+          "accepted": [
+            "J",
+            "O"
+          ]
+        },
+        {
+          "id": "J2-4",
+          "by": "J",
+          "projectId": "G01",
+          "unit": 2,
+          "shares": {
+            "J": [
+              0,
+              1,
+              1
+            ],
+            "M": [
+              1,
+              0,
+              1
+            ]
+          },
+          "why": "Завершение переправы принесёт по одному благополучию жителям, торговцам и строителям.",
+          "accepted": [
+            "J",
+            "M"
+          ]
+        },
+        {
+          "id": "J2-5",
+          "by": "M",
+          "projectId": "G01",
+          "unit": 2,
+          "shares": {
+            "M": [
+              0,
+              1,
+              1
+            ],
+            "J": [
+              1,
+              0,
+              1
+            ]
+          },
+          "why": "Совместно завершим переправу и повысим благополучие трёх городских фракций.",
+          "accepted": [
+            "M",
+            "J"
+          ]
+        }
+      ]
+    },
+    {
+      "cycle": 3,
+      "offers": 4,
+      "executed": 3,
+      "abstentions": 0,
+      "jointAgreed": 0,
+      "projects": [
+        "S2",
+        "J2",
+        "G05",
+        "O2"
+      ],
+      "offersDetails": [
+        {
+          "id": "33",
+          "from": "J",
+          "to": "M",
+          "give": [
+            0,
+            1,
+            0
+          ],
+          "take": [
+            1,
+            0,
+            0
+          ],
+          "cycle": 3,
+          "status": "accepted"
+        },
+        {
+          "id": "34",
+          "from": "M",
+          "to": "B",
+          "give": [
+            0,
+            2,
+            0
+          ],
+          "take": [
+            0,
+            0,
+            2
+          ],
+          "cycle": 3,
+          "status": "accepted"
+        },
+        {
+          "id": "35",
+          "from": "M",
+          "to": "J",
+          "give": [
+            1,
+            0,
+            0
+          ],
+          "take": [
+            0,
+            0,
+            1
+          ],
+          "cycle": 3,
+          "status": "accepted"
+        },
+        {
+          "id": "36",
+          "from": "M",
+          "to": "O",
+          "give": [
+            0,
+            1,
+            0
+          ],
+          "take": [
+            0,
+            0,
+            1
+          ],
+          "cycle": 3,
+          "status": "declined"
+        }
+      ],
+      "agreements": []
+    },
+    {
+      "cycle": 4,
+      "offers": 1,
+      "executed": 1,
+      "abstentions": 0,
+      "jointAgreed": 3,
+      "projects": [
+        "D2",
+        "G09"
+      ],
+      "offersDetails": [
+        {
+          "id": "47",
+          "from": "J",
+          "to": "B",
+          "give": [
+            0,
+            2,
+            0
+          ],
+          "take": [
+            1,
+            0,
+            0
+          ],
+          "cycle": 4,
+          "status": "accepted"
+        }
+      ],
+      "agreements": [
+        {
+          "id": "J4-3",
+          "by": "M",
+          "projectId": "G08",
+          "unit": 1,
+          "shares": {
+            "M": [
+              1,
+              1,
+              2
+            ],
+            "J": [
+              1,
+              0,
+              1
+            ]
+          },
+          "why": "Совместно защитим первую часть дворов и сохраним ресурсы для второй.",
+          "accepted": [
+            "M",
+            "J"
+          ]
+        },
+        {
+          "id": "J4-5",
+          "by": "O",
+          "projectId": "D2",
+          "shares": {
+            "O": [
+              1,
+              2,
+              2
+            ],
+            "B": [
+              0,
+              0,
+              1
+            ]
+          },
+          "why": "Строители получат благополучие, а Орден откроет второе представительство и получит рабочие действия в следующих циклах.",
+          "accepted": [
+            "O",
+            "B"
+          ]
+        },
+        {
+          "id": "J4-6",
+          "by": "O",
+          "projectId": "G09",
+          "shares": {
+            "O": [
+              1,
+              1,
+              2
+            ],
+            "B": [
+              0,
+              0,
+              1
+            ]
+          },
+          "why": "Совместный резерв даст обеим фракциям дополнительные рабочие действия в двух следующих циклах.",
+          "accepted": [
+            "O",
+            "B"
+          ]
+        }
+      ]
+    },
+    {
+      "cycle": 5,
+      "offers": 3,
+      "executed": 3,
+      "abstentions": 2,
+      "jointAgreed": 3,
+      "projects": [
+        "S3",
+        "J3",
+        "D3",
+        "O3"
+      ],
+      "offersDetails": [
+        {
+          "id": "57",
+          "from": "J",
+          "to": "M",
+          "give": [
+            0,
+            1,
+            0
+          ],
+          "take": [
+            0,
+            0,
+            0
+          ],
+          "cycle": 5,
+          "status": "fulfilled",
+          "abstainProject": "G10"
+        },
+        {
+          "id": "58",
+          "from": "J",
+          "to": "B",
+          "give": [
+            0,
+            1,
+            0
+          ],
+          "take": [
+            0,
+            0,
+            0
+          ],
+          "cycle": 5,
+          "status": "fulfilled",
+          "abstainProject": "G10"
+        },
+        {
+          "id": "59",
+          "from": "J",
+          "to": "O",
+          "give": [
+            1,
+            0,
+            0
+          ],
+          "take": [
+            0,
+            0,
+            1
+          ],
+          "cycle": 5,
+          "status": "accepted"
+        }
+      ],
+      "agreements": [
+        {
+          "id": "J5-4",
+          "by": "J",
+          "projectId": "G06",
+          "shares": {
+            "J": [
+              0,
+              1,
+              1
+            ],
+            "M": [
+              1,
+              0,
+              2
+            ]
+          },
+          "why": "Совместный объезд повысит благополучие жителей и торговцев.",
+          "accepted": [
+            "J",
+            "M"
+          ]
+        },
+        {
+          "id": "J5-7",
+          "by": "O",
+          "projectId": "D3",
+          "shares": {
+            "O": [
+              2,
+              1,
+              2
+            ],
+            "M": [
+              0,
+              0,
+              1
+            ]
+          },
+          "why": "Торговцы получат благополучие, а Орден откроет представительство и получит рабочие действия в следующем цикле.",
+          "accepted": [
+            "O",
+            "M"
+          ]
+        },
+        {
+          "id": "J5-8",
+          "by": "O",
+          "projectId": "G06",
+          "shares": {
+            "O": [
+              1,
+              1,
+              2
+            ],
+            "J": [
+              0,
+              0,
+              1
+            ]
+          },
+          "why": "Совместная оплата повысит благополучие Жителей и Торговцев.",
+          "accepted": [
+            "O",
+            "J"
+          ]
+        }
+      ]
+    }
+  ],
+  "relevant": [
+    {
+      "cycle": 3,
+      "deal": {
+        "id": "34",
+        "from": "M",
+        "to": "B",
+        "give": [
+          0,
+          2,
+          0
+        ],
+        "take": [
+          0,
+          0,
+          2
+        ],
+        "cycle": 3,
+        "status": "accepted"
+      },
+      "materialsSeller": "M",
+      "materialsBuyer": "B",
+      "start": {
+        "B": [
+          4,
+          4,
+          5
+        ],
+        "J": [
+          1,
+          4,
+          3
+        ],
+        "M": [
+          3,
+          5,
+          3
+        ],
+        "O": [
+          5,
+          6,
+          4
+        ]
+      },
+      "effect": [
+        {
+          "actor": {
+            "role": "leader",
+            "teamId": "M"
+          },
+          "action": {
+            "type": "fund",
+            "projectId": "G05"
+          },
+          "why": "Срочный заказ повысит благополучие торговцев до 7 и предотвратит удорожание первой единицы каркаса.",
+          "error": "Не хватает ресурсов на целую единицу.",
+          "actuallyFunded": true
+        }
+      ],
+      "alternatives": [
+        {
+          "team": "J",
+          "compatible": true
+        },
+        {
+          "team": "O",
+          "compatible": true
+        }
+      ],
+      "completedInCycle": [
+        "S2",
+        "J2",
+        "G05",
+        "O2"
+      ]
+    },
+    {
+      "cycle": 3,
+      "deal": {
+        "id": "35",
+        "from": "M",
+        "to": "J",
+        "give": [
+          1,
+          0,
+          0
+        ],
+        "take": [
+          0,
+          0,
+          1
+        ],
+        "cycle": 3,
+        "status": "accepted"
+      },
+      "materialsSeller": "M",
+      "materialsBuyer": "J",
+      "start": {
+        "B": [
+          4,
+          4,
+          5
+        ],
+        "J": [
+          1,
+          4,
+          3
+        ],
+        "M": [
+          3,
+          5,
+          3
+        ],
+        "O": [
+          5,
+          6,
+          4
+        ]
+      },
+      "effect": [],
+      "alternatives": [
+        {
+          "team": "B",
+          "compatible": true
+        },
+        {
+          "team": "O",
+          "compatible": true
+        }
+      ],
+      "completedInCycle": [
+        "S2",
+        "J2",
+        "G05",
+        "O2"
+      ]
+    },
+    {
+      "cycle": 5,
+      "deal": {
+        "id": "59",
+        "from": "J",
+        "to": "O",
+        "give": [
+          1,
+          0,
+          0
+        ],
+        "take": [
+          0,
+          0,
+          1
+        ],
+        "cycle": 5,
+        "status": "accepted"
+      },
+      "materialsSeller": "J",
+      "materialsBuyer": "O",
+      "start": {
+        "B": [
+          4,
+          9,
+          4
+        ],
+        "J": [
+          3,
+          4,
+          3
+        ],
+        "M": [
+          1,
+          3,
+          3
+        ],
+        "O": [
+          4,
+          5,
+          7
+        ]
+      },
+      "effect": [
+        {
+          "actor": {
+            "role": "leader",
+            "teamId": "J"
+          },
+          "action": {
+            "type": "pledge",
+            "projectId": "G06",
+            "amount": [
+              0,
+              0,
+              1
+            ]
+          },
+          "why": "Укрепление домов и согласованный с Орденом объезд вместе повысят благополучие жителей на три при доступном запасе ресурсов.",
+          "error": "У вашей команды не хватает ресурсов.",
+          "actuallyFunded": false
+        }
+      ],
+      "alternatives": [
+        {
+          "team": "B",
+          "compatible": true
+        },
+        {
+          "team": "M",
+          "compatible": false
+        }
+      ],
+      "completedInCycle": [
+        "S3",
+        "J3",
+        "D3",
+        "O3"
+      ]
+    }
+  ],
+  "score": {
+    "B": 8,
+    "J": 7,
+    "M": 8
+  },
+  "marks": {
+    "J": 2,
+    "B": 4,
+    "M": 5
+  },
+  "progress": {
+    "T1": 0,
+    "T1X": 0,
+    "T2": 0
+  },
+  "replayed": 71
+}

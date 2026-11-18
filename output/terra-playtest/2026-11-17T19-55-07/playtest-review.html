@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Вавилонская башня — разбор игры Terra</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f4f1e8;
+      --surface: #fffdf7;
+      --text: #222b26;
+      --muted: #505d54;
+      --line: #d6d9cd;
+      --green: #135449;
+      --soft-green: #e9f0e9;
+      --rust: #883b28;
+      --soft-rust: #f7eae0;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--text);
+      font: 16px/1.52 "Segoe UI", system-ui, sans-serif;
+    }
+    main { max-width: 1020px; margin: 0 auto; padding: 46px 34px 34px; }
+    header { border-top: 4px solid var(--green); padding-top: 22px; }
+    h1, h2 { font-family: Georgia, "Times New Roman", serif; font-weight: 600; line-height: 1.14; }
+    h1 { font-size: clamp(33px, 5vw, 50px); margin: 6px 0 12px; letter-spacing: -.035em; }
+    h2 { font-size: 28px; margin: 0 0 15px; letter-spacing: -.018em; }
+    h3 { font-size: 16px; line-height: 1.35; margin: 0 0 5px; }
+    p { margin: 0 0 10px; }
+    a { color: var(--green); text-underline-offset: .17em; }
+    a:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; }
+    .series { margin: 0; color: var(--green); font-weight: 650; }
+    .intro { max-width: 74ch; margin-bottom: 20px; color: var(--muted); }
+    .metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 0; }
+    .metrics > div { min-width: 0; padding: 12px 15px 13px; border: 1px solid var(--line); background: var(--surface); border-radius: 7px; }
+    .metrics dt { font-size: .88rem; color: var(--muted); }
+    .metrics dd { margin: 0; }
+    .metrics .value { display: block; margin: 1px 0 3px; font: 600 34px/1.06 Georgia, serif; color: var(--green); font-variant-numeric: tabular-nums; }
+    .metrics .note { font-size: .86rem; }
+    .outcome { margin-top: 10px; padding: 9px 14px; background: var(--soft-green); border-radius: 7px; font-size: .92rem; }
+    .outcome strong { font-variant-numeric: tabular-nums; }
+    section { margin-top: 24px; }
+    .timeline { display: grid; grid-template-columns: 105px minmax(0, 1fr); margin: 0; font-size: .92rem; }
+    .timeline dt, .timeline dd { padding: 7px 0; border-top: 1px solid var(--line); margin: 0; }
+    .timeline dt { padding-right: 12px; font-weight: 650; color: var(--green); }
+    .columns { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 24px; }
+    .panel { min-width: 0; margin: 0; padding: 16px 17px; border: 1px solid var(--line); border-top-width: 3px; border-radius: 7px; background: var(--surface); }
+    .platform { border-top-color: var(--rust); }
+    .design { border-top-color: var(--green); }
+    .platform h2 { color: var(--rust); }
+    .design h2 { color: var(--green); }
+    .panel p { font-size: .92rem; }
+    .panel article + article { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); }
+    .panel article > :last-child { margin-bottom: 0; }
+    .test { margin-top: 9px; padding: 9px 10px; border-radius: 5px; background: var(--soft-rust); }
+    footer { margin-top: 17px; padding-top: 13px; border-top: 1px solid var(--line); color: var(--muted); font-size: .87rem; }
+    footer nav { display: flex; flex-wrap: wrap; gap: 5px 16px; }
+    @media (max-width: 650px) {
+      main { padding: 25px 18px; }
+      .columns { grid-template-columns: 1fr; }
+      .metrics > div { padding: 9px 8px; }
+      .metrics .value { font-size: 29px; }
+      .metrics .note, .metrics dt { font-size: .79rem; }
+      .timeline { grid-template-columns: 76px minmax(0, 1fr); }
+    }
+    @media (max-width: 340px) { .metrics { grid-template-columns: 1fr; } }
+    @media print {
+      @page { margin: 13mm; }
+      body { background: #fff; }
+      main { padding: 0; max-width: none; }
+      .metrics > div, .timeline dt, .timeline dd, .panel article { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <p class="series">Вавилонская башня · подготовка к плейтесту</p>
+      <h1>Как сыграли восемь агентов</h1>
+      <p class="intro">Одна партия 4×2 с GPT‑6.1 Terra, от выбора площадки до конца шестого цикла. Срочный заказ создал спрос на обмен. Вклады в защиту от паводка зависели от порядка заявок. Башня за всю партию не получила ни одного вклада.</p>
+      <dl class="metrics" aria-label="Ключевые показатели">
+        <div><dt>Предложения</dt><dd><span class="value">39</span><span class="note">обмены и компенсации</span></dd></div>
+        <div><dt>Исполненные сделки</dt><dd><span class="value">16</span><span class="note">12 за отказ от вклада</span></dd></div>
+        <div><dt>Фундамент</dt><dd><span class="value">0/2</span><span class="note">каркас тоже 0/2</span></dd></div>
+      </dl>
+      <p class="outcome">Благополучие · Строители <strong>9</strong>, Жители <strong>8</strong>, Торговцы <strong>7</strong>. У Ордена <strong>3</strong> представительства из 3 возможных. Это состояние города на срезе демо.</p>
+    </header>
+
+    <section aria-labelledby="events">
+      <h2 id="events">Как прошла партия</h2>
+      <dl class="timeline">
+        <dt>Цикл 0</dt><dd>В первом голосовании голоса распределились между тремя площадками. Во втором все четыре команды выбрали Другой берег. Эта площадка сохраняет стартовое благополучие и добавляет этап усиления фундамента.</dd>
+        <dt>Цикл 2</dt><dd>Жители выкупили у всех трёх соседей отказ от ночных рейсов. В четвёртом цикле повторили сделку.</dd>
+        <dt>Цикл 3</dt><dd>Торговцы купили по одному рабочему действию у Строителей и Жителей за 2 единицы древесины и 2 камня соответственно. Крепёж заказали в срок.</dd>
+        <dt>Цикл 4</dt><dd>Жители и Торговцы согласовали доли на две единицы защиты дворов, но оплатили одну. На следующий цикл Жители потеряли 2 благополучия, Торговцы — 1.</dd>
+        <dt>Цикл 5</dt><dd>Жители заплатили каждому из трёх соседей по камню за отказ от грузового двора. Двор и ночные рейсы остались незавершёнными.</dd>
+      </dl>
+    </section>
+
+    <div class="columns">
+      <section class="panel platform" aria-labelledby="platform">
+        <h2 id="platform">Платформа</h2>
+        <article>
+          <h3>Привязать вклад к единице проекта</h3>
+          <p>Сейчас у проекта один общий пул для очередной единицы. Второй вклад Жителей попал в остаток первой и был отклонён. Та же четвёрка вкладов, внесённая по одной единице за раз, закрывает защиту на 2/2.</p>
+          <p>До плейтеста привязать согласованные доли к отдельным единицам. На экране лидера показать участников, уже внесённые доли и недостающее. Это сводка, которую запросили шесть из восьми агентов.</p>
+          <p class="test"><strong>Приёмка.</strong> Повторить исходный порядок четырёх вкладов. Обе единицы должны закрыться с корректным списанием ресурсов. В пятом цикле город избегает потерь от паводка.</p>
+        </article>
+        <article>
+          <h3>Проверить реакцию на устаревший выбор</h3>
+          <p>Два вклада Ордена пришли после того, как проекты уже завершились. Это корректный отказ движка. В живом интерфейсе проверить, что лидер видит обновлённый статус и успевает выбрать другой проект. Автоматический запасной ход — идея от двух агентов.</p>
+        </article>
+      </section>
+
+      <section class="panel design" aria-labelledby="design">
+        <h2 id="design">Игровой дизайн</h2>
+        <article>
+          <h3>Проверить коалицию на башню вживую</h3>
+          <p>В шестицикловом прогоне агенты видели ориентир 7 по благополучию. Полная башня и общая победа лежали за пределами демо. Строители дважды предложили доли фундамента Ордену, который стремился сдержать стройку. На первом живом тесте обозначить общий рубеж демо — фундамент и каркас — и собрать планы городских фракций до четвёртого цикла при текущих ценах башни.</p>
+        </article>
+        <article>
+          <h3>Выкуп отказа чаще страховал от риска</h3>
+          <p>В одном из 12 выкупов адресат уже предложил доли на запрещённый проект: Торговцы собирали коалицию на ночные рейсы. В остальных 11 его посол до сделки озвучил другие приоритеты. Каждый выкуп стоил одну единицу материала. На живой игре стоит записать ещё и планы лидера до переговоров. <a href="abstention-audit.md">Разбор всех 12 выкупов</a>.</p>
+        </article>
+        <article>
+          <h3>Сохранить удачные поводы для сделок</h3>
+          <p>Переправа, срочный крепёж и представительства понравились за понятную встречную выгоду. Оставить их в демо и посмотреть, выбирают ли игроки между несколькими поставщиками и считают ли будущую отдачу Ордену приемлемой ценой.</p>
+        </article>
+      </section>
+    </div>
+
+    <footer>
+      <p>Агенты играли без таймера, текстовыми заявками с фиксированным порядком исполнения вкладов. Живой плейтест проверит темп, устное смешение языков и нагрузку на лидера, который в 4×2 также ведёт ресурсы.</p>
+      <nav aria-label="Источники отчёта">
+        <a href="log.md">Лог партии</a>
+        <a href="negotiations.md">Переговоры по циклам</a>
+        <a href="feedback.md">Ответы восьми агентов</a>
+        <a href="result.json">Финальное состояние</a>
+      </nav>
+    </footer>
+  </main>
+</body>
+</html>

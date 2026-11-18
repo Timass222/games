@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#18241f">
+  <title>Вавилонская башня — Высокая вода</title>
+  <link rel="stylesheet" href="/style.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">К игровому полю</a>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="/" aria-label="Вавилонская башня">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span>Вавилонская башня<small>Высокая вода</small></span>
+      </a>
+      <div class="session" id="session"></div>
+    </div>
+  </header>
+  <div class="page" id="page">
+    <nav class="rail" id="rail" aria-label="Разделы игры" hidden></nav>
+    <main id="main" tabindex="-1" aria-busy="true">
+      <div class="loading"><span class="pulse" aria-hidden="true"></span> Открываем игровое поле…</div>
+    </main>
+  </div>
+  <div id="messages" class="messages" aria-live="polite" aria-atomic="true"></div>
+  <dialog id="action-dialog" aria-labelledby="dialog-title"></dialog>
+</body>
+</html>

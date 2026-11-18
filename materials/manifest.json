@@ -1,0 +1,132 @@
+[
+  {
+    "id": "S01",
+    "file": "materials/originals/Аудиторная_работа_8 (1).pptx",
+    "sha256": "51276ec7ce960ad3fbbfa0a9229274bd0d2a31b0f6953f0f4504ec9665ade96a",
+    "assets": [],
+    "slides": 6,
+    "text_file": "text\\S01.md",
+    "text_chars": 1122
+  },
+  {
+    "id": "S02",
+    "file": "materials/originals/Бриф Мактерская игр-2.pdf",
+    "sha256": "a795f3dbc727219d8327b4efaa0d669669cc8450e2c0b9ff399d96578d0b384f",
+    "assets": [
+      "assets\\S02\\page-01.png"
+    ],
+    "pages": 1,
+    "chars_by_page": [
+      2034
+    ],
+    "text_file": "text\\S02.md",
+    "text_chars": 2151
+  },
+  {
+    "id": "S03",
+    "file": "materials/originals/Бриф на разработку бизнес-игры для оценки софт-компетенций студентами.docx",
+    "sha256": "707c8fc608f2460abfa5348f7c3293ee3c39d5d47e23b5987355820360f01998",
+    "assets": [],
+    "body_blocks": 18,
+    "revisions": 0,
+    "text_file": "text\\S03.md",
+    "text_chars": 3757,
+    "external_links": [
+      "https://cu.ru/",
+      "https://docs.google.com/spreadsheets/d/1hoHkJBdZaNEM1aShg6SD9AcYkvaaEEclJ7XVmA3f50M/edit?gid=957478399#gid=957478399"
+    ]
+  },
+  {
+    "id": "S04",
+    "file": "materials/originals/ДЗ_2 (2).pptx",
+    "sha256": "5916f79348849df401724f4be74f0c7400e7f809aededf2d14cef6729f371d63",
+    "assets": [
+      "assets\\S04\\image1.png"
+    ],
+    "slides": 4,
+    "text_file": "text\\S04.md",
+    "text_chars": 2296
+  },
+  {
+    "id": "S05",
+    "file": "materials/originals/Концепт документ софты.docx",
+    "sha256": "ca829e32eef2cd8f43bef5b3060d607a425f6a5dea79e591854cd9d6129c6c40",
+    "assets": [
+      "assets\\S05\\image1.jpg"
+    ],
+    "body_blocks": 32,
+    "revisions": 0,
+    "text_file": "text\\S05.md",
+    "text_chars": 4948
+  },
+  {
+    "id": "S06",
+    "file": "materials/originals/Семинар 1 — глубинные интервью (1).pdf",
+    "sha256": "621497f5a2154a41b26f177074f6a52ce37458e5090486ba7c4dffcfe1495b36",
+    "assets": [
+      "assets\\S06\\page-01.png",
+      "assets\\S06\\page-02.png",
+      "assets\\S06\\page-03.png",
+      "assets\\S06\\page-04.png",
+      "assets\\S06\\page-05.png",
+      "assets\\S06\\page-06.png",
+      "assets\\S06\\page-07.png"
+    ],
+    "pages": 7,
+    "chars_by_page": [
+      230,
+      909,
+      936,
+      759,
+      901,
+      618,
+      835
+    ],
+    "text_file": "text\\S06.md",
+    "text_chars": 6565,
+    "extraction": "Manual visual transcription of all 7 pages; Cyrillic lost in PDF text layer"
+  },
+  {
+    "id": "S07",
+    "file": "materials/originals/созвон.docx",
+    "sha256": "bc6a5b7387d76961e3f58a3a7d39f23ebdd8a2010b4fd300acb149d1691f766f",
+    "assets": [],
+    "body_blocks": 46,
+    "revisions": 0,
+    "text_file": "text\\S07.md",
+    "text_chars": 5193
+  },
+  {
+    "id": "S08",
+    "file": "materials/originals/Чек-лист оценки soft-skills компетенций - чек-лист 0-3.pdf",
+    "sha256": "89610d0636e3e569dc5306c1721494ccccb9c29a0c6479e29819c3934b7d9a41",
+    "assets": [
+      "assets\\S08\\page-01.png",
+      "assets\\S08\\page-02.png",
+      "assets\\S08\\page-03.png"
+    ],
+    "pages": 3,
+    "chars_by_page": [
+      192808,
+      255268,
+      125461
+    ],
+    "text_file": "text\\S08.md",
+    "text_chars": 68645,
+    "extraction": "Text clipped to table cells; PDF content order, not geometric sorting"
+  },
+  {
+    "id": "S09",
+    "file": null,
+    "origin": "User messages 2026-11-05; meeting date not specified",
+    "text_file": "text/S09.md",
+    "text_chars": 2354
+  },
+  {
+    "id": "S10",
+    "file": null,
+    "origin": "User messages 2026-11-05; meeting date not specified",
+    "text_file": "text/S10.md",
+    "text_chars": 19830
+  }
+]

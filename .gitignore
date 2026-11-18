@@ -1,0 +1,9 @@
+node_modules/
+/sites/babel-tower/dist/
+.wrangler/
+__pycache__/
+*.py[cod]
+.env*
+.dev.vars*
+/tmp/block2/render/package/
+/tmp/block2/render/docx-preview-*.tgz

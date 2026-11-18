@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Вавилонская башня — второй плейтест Terra</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f4f1e8;
+      --surface: #fffdf7;
+      --text: #222b26;
+      --muted: #505d54;
+      --line: #d6d9cd;
+      --green: #135449;
+      --soft-green: #e9f0e9;
+      --rust: #883b28;
+      --soft-rust: #f7eae0;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--text);
+      font: 16px/1.52 "Segoe UI", system-ui, sans-serif;
+    }
+    main { max-width: 1020px; margin: 0 auto; padding: 46px 34px 34px; }
+    header { border-top: 4px solid var(--green); padding-top: 22px; }
+    h1, h2 { font-family: Georgia, "Times New Roman", serif; font-weight: 600; line-height: 1.14; }
+    h1 { font-size: clamp(33px, 5vw, 50px); margin: 6px 0 12px; letter-spacing: -.035em; }
+    h2 { font-size: 28px; margin: 0 0 15px; letter-spacing: -.018em; }
+    h3 { font-size: 16px; line-height: 1.35; margin: 0 0 5px; }
+    p { margin: 0 0 10px; }
+    a { color: var(--green); text-underline-offset: .17em; }
+    a:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; }
+    .series { margin: 0; color: var(--green); font-weight: 650; }
+    .intro { max-width: 74ch; margin-bottom: 20px; color: var(--muted); }
+    .metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 0; }
+    .metrics > div { min-width: 0; padding: 12px 15px 13px; border: 1px solid var(--line); background: var(--surface); border-radius: 7px; }
+    .metrics dt { font-size: .88rem; color: var(--muted); }
+    .metrics dd { margin: 0; }
+    .metrics .value { display: block; margin: 1px 0 3px; font: 600 34px/1.06 Georgia, serif; color: var(--green); font-variant-numeric: tabular-nums; }
+    .metrics .note { font-size: .86rem; }
+    .outcome { margin-top: 10px; padding: 9px 14px; background: var(--soft-green); border-radius: 7px; font-size: .92rem; }
+    .outcome strong { font-variant-numeric: tabular-nums; }
+    section { margin-top: 24px; }
+    .timeline { display: grid; grid-template-columns: 105px minmax(0, 1fr); margin: 0; font-size: .92rem; }
+    .timeline dt, .timeline dd { padding: 7px 0; border-top: 1px solid var(--line); margin: 0; }
+    .timeline dt { padding-right: 12px; font-weight: 650; color: var(--green); }
+    .columns { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 24px; }
+    .panel { min-width: 0; margin: 0; padding: 16px 17px; border: 1px solid var(--line); border-top-width: 3px; border-radius: 7px; background: var(--surface); }
+    .platform { border-top-color: var(--rust); }
+    .design { border-top-color: var(--green); }
+    .platform h2 { color: var(--rust); }
+    .design h2 { color: var(--green); }
+    .panel p { font-size: .92rem; }
+    .panel article + article { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--line); }
+    .panel article > :last-child { margin-bottom: 0; }
+    .test { margin-top: 9px; padding: 9px 10px; border-radius: 5px; background: var(--soft-rust); }
+    footer { margin-top: 17px; padding-top: 13px; border-top: 1px solid var(--line); color: var(--muted); font-size: .87rem; }
+    footer nav { display: flex; flex-wrap: wrap; gap: 5px 16px; }
+    @media (max-width: 650px) {
+      main { padding: 25px 18px; }
+      .columns { grid-template-columns: 1fr; }
+      .metrics > div { padding: 9px 8px; }
+      .metrics .value { font-size: 29px; }
+      .metrics .note, .metrics dt { font-size: .79rem; }
+      .timeline { grid-template-columns: 76px minmax(0, 1fr); }
+    }
+    @media (max-width: 340px) { .metrics { grid-template-columns: 1fr; } }
+    @media print {
+      @page { margin: 13mm; }
+      body { background: #fff; }
+      main { padding: 0; max-width: none; }
+      .metrics > div, .timeline dt, .timeline dd, .panel article { break-inside: avoid; }
+    }
+  
+    table { border-collapse: collapse; width: 100%; background: var(--surface); font-size: .92rem; }
+    th, td { padding: 8px 12px; border-bottom: 1px solid var(--line); text-align: left; }
+    thead th { background: var(--soft-green); color: var(--green); }
+    th[scope=row] { font-weight: 550; }
+    td { white-space: nowrap; font-variant-numeric: tabular-nums; }
+    .compare th:first-child { width: 64%; }
+    .note-text { margin-top: 9px; color: var(--muted); font-size: .88rem; }
+    .feedback-list { display: grid; gap: 12px; }
+    .feedback-list article { border-left: 2px solid var(--line); padding-left: 12px; }
+    .feedback-list p { margin-bottom: 0; }
+    .competencies { margin: 0; }
+    .competencies div { display: grid; grid-template-columns: 160px minmax(0,1fr); gap: 12px; padding: 8px 0; border-top: 1px solid var(--line); }
+    .competencies dt { font-weight: 650; color: var(--green); }
+    .competencies dd { margin: 0; }
+    ol { padding-left: 1.4em; margin: 0; }
+    li + li { margin-top: 6px; }
+    @media (max-width: 550px) {
+      th, td { padding: 7px 8px; }
+      .compare th:first-child { width: 58%; }
+      .compare td { white-space: normal; }
+      .competencies div { grid-template-columns: 1fr; gap: 3px; }
+    }
+    @media print { tr, .feedback-list article, .competencies div { break-inside: avoid; } }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <p class="series">Вавилонская башня · подготовка к живому плейтесту</p>
+      <h1>Как прошёл второй прогон Terra</h1>
+      <p class="intro">Восемь агентов сыграли шесть циклов в формате 4×2. Обменов и компенсаций стало меньше. Команды защитили дворы от паводка, построили фундамент и усилили его. Каркас остался на 0 из 2.</p>
+      <dl class="metrics" aria-label="Ключевые показатели второго прогона">
+        <div><dt>Исполненные сделки</dt><dd><span class="value">2</span><span class="note">в первом прогоне 16</span></dd></div>
+        <div><dt>Согласованные планы</dt><dd><span class="value">8</span><span class="note">из 32 предложенных</span></dd></div>
+        <div><dt>Каркас</dt><dd><span class="value">0/2</span><span class="note">фундамент и усиление готовы</span></dd></div>
+      </dl>
+      <p class="outcome">Итог демо · Другой берег. Благополучие: Строители <strong>7</strong>, Жители <strong>10</strong>, Торговцы <strong>5</strong>. У Ордена <strong>1</strong> представительство, у Жителей.</p>
+    </header>
+
+    <section aria-labelledby="deals">
+      <h2 id="deals">Где стало сложнее договориться</h2>
+      <table class="compare" aria-labelledby="deals">
+        <thead><tr><th scope="col">Действие</th><th scope="col">Прогон 1</th><th scope="col">Прогон 2</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Формальные предложения</th><td>39</td><td>9</td></tr>
+          <tr><th scope="row">Обмены ресурсами</th><td>4 из 26</td><td>2 из 9</td></tr>
+          <tr><th scope="row">Оплата за отказ от вклада</th><td>12 из 13</td><td>0</td></tr>
+          <tr><th scope="row">Предложения о совместных вкладах</th><td>24</td><td>32</td></tr>
+          <tr><th scope="row">Согласованные планы</th><td>12</td><td>8</td></tr>
+          <tr><th scope="row">Вклады внесены по согласованным долям</th><td>6</td><td>6</td></tr>
+        </tbody>
+      </table>
+      <p class="note-text">Первые три строки показывают сделки через движок. Последние три показывают совместные планы и фактические вклады. Во втором прогоне оба обмена прошли в первом цикле. После третьего цикла в журнале остались только предложения о совместных вкладах.</p>
+      <p>На исчезновение выкупов приходится 12 из 14 потерянных исполненных сделок. Обычных обменов тоже стало меньше. Доля принятых среди предложенных выросла с 4 из 26 до 2 из 9. По совместным проектам подтверждали меньше планов, хотя предлагали больше. Шесть согласованных вкладов команды исполнили в обеих партиях.</p>
+    </section>
+
+    <section aria-labelledby="events">
+      <h2 id="events">Как прошла партия</h2>
+      <dl class="timeline">
+        <dt>Циклы 0–2</dt><dd>На втором голосовании все выбрали Другой берег. Строители обменяли камень на древесину с Жителями и Торговцами. Затем Жители и Орден вместе открыли кухню. Жители получили благополучие и со следующего цикла передавали Ордену одно рабочее действие.</dd>
+        <dt>Цикл 3</dt><dd>Торговцы предлагали Строителям и Жителям по древесине и камню за два рабочих действия. Жители берегли труд для огородов, Строители выбрали фундамент и испытательный стенд. Торговцы вложились в фундамент со Строителями, а срок заказа на крепёж истёк.</dd>
+        <dt>Цикл 4</dt><dd>Строители оплатили первую единицу защиты от паводка целиком. Жители и Торговцы закрыли вторую по согласованным долям. Город избежал потерь благополучия и надбавки к труду на каркас.</dd>
+        <dt>Цикл 5</dt><dd>Строители дали два рабочих действия, Жители внесли остальное в усиление. Это открыло каркас на шестой цикл. Торговцы и Орден не согласовали вывоз товара из амбаров до дедлайна.</dd>
+        <dt>Цикл 6</dt><dd>Городские команды располагали 10 рабочими действиями при цене каркаса 12. Орден рассматривал помощь за представительство. Плана на обе единицы не собрали. Строители завершили мастерские (+3 себе, −2 Торговцам), Жители восстановили дворы, Торговцы закрыли зимний контракт.</dd>
+      </dl>
+    </section>
+
+    <section aria-labelledby="voices">
+      <h2 id="voices">Что сказали восемь участников</h2>
+      <div class="feedback-list">
+        <article><h3>Интерес возникал, когда было за что спорить</h3><p>Торговцы и Строители выделили цикл 3, когда общий фундамент конкурировал со срочным заказом и своим проектом. Жители отметили распределение долей защиты дворов и решение вложиться в усиление. Обоим агентам Ордена запомнилась кухня, где малая доля открывала представительство.</p></article>
+        <article><h3>Меньше всего выбора было после неудачных переговоров</h3><p>Жители и Орден вспомнили фазы без входящих предложений. Торговцы и Жители отметили коррекцию уже закрытой защиты, когда на запасной проект оставалось мало труда. Строители и Торговцы назвали финал предсказуемым, когда предложенные доли каркаса превышали запасы или оставались без подтверждения.</p></article>
+        <article><h3>За материалы не удалось купить труд в нужный момент</h3><p>В циклах 2–3 семь запросов обменять материалы на труд получили отказ. В ответах фигурировали собственные проекты и согласованные вклады в те же циклы. В финале Орден мог дать недостающий труд, но рассчитывал получить представительство. По лесному причалу предложения получили только Торговцы, а по резерву бригад до прямых предложений дело не дошло.</p></article>
+      </div>
+      <p class="note-text">Ответили 8 из 8 участников в исходных сессиях. Причины отказов сверены с журналом, где они были записаны. <a href="feedback.md">Полные ответы</a>.</p>
+    </section>
+
+    <section aria-labelledby="skills">
+      <h2 id="skills">Какие компетенции проявились в действиях</h2>
+      <dl class="competencies">
+        <div><dt>Переговоры</dt><dd>Посол Строителей согласился внести два действия в фундамент, оставив команде возможность оплатить стенд. Посол Жителей отказался от обмена двух действий на древесину, объяснив приоритет огородов и стройки. В обоих случаях можно обсудить, как игрок оценивал условия и сообщал о своих интересах.</dd></div>
+        <div><dt>Ресурсы и решения</dt><dd>Лидер Строителей оплатил стенд и внёс долю в фундамент. Лидер Жителей после провала переговоров о каркасе оплатил восстановление дворов, которое улучшило благополучие двух фракций. Здесь видны расчёт запаса, приоритеты и смена плана.</dd></div>
+        <div><dt>Лидерство в команде</dt><dd>Зафиксированы выбор действий и передача плана между двумя ролями. О распределении задач, влиянии на решение команды, устном убеждении и работе под таймером этот формат даёт мало данных. Отдельной роли ресурсного менеджера в 4×2 не было.</dd></div>
+      </dl>
+    </section>
+
+    <div class="columns">
+      <section class="panel platform" aria-labelledby="platform">
+        <h2 id="platform">Платформа</h2>
+        <article><h3>Проверить обновление карточек</h3><p>Привязка долей к единицам сработала на защите дворов. Две заявки на первую единицу пришли после её полной оплаты. В живом интерфейсе стоит проверить на двух устройствах, сразу ли оба лидера видят закрытие и успевают ли перенаправить вклад.</p></article>
+        <article><h3>Проверить видимость условий</h3><p>Агенты пробовали оплатить партнёрские проекты Ордена целиком. Движок отклонил эти действия по правилам. На живом тесте проверить, считывают ли игроки требование совместного вклада и доступность карточки. Послам полезно иметь перед глазами цену и согласованные доли по каждой единице.</p></article>
+        <p class="note-text">Все восемь ответили, что отдельной проблемы платформы не заметили. Они играли через движок в текстовом протоколе. Удобство сайта проверяется с людьми.</p>
+      </section>
+      <section class="panel design" aria-labelledby="design">
+        <h2 id="design">Игровой дизайн</h2>
+        <article><h3>Сравнить предложение с исходным планом</h3><p>В цикле 3 записать, кто реально мог продать труд без отмены важного проекта и на каких условиях. В циклах 5–6 отметить, кто собирался вложиться в спорную карточку и было ли что выкупать.</p></article>
+        <article><h3>Следить за временем на окупаемость</h3><p>По лесному причалу и резерву бригад проверить, кому пригодится доход, когда он начнёт поступать и кто готов отдать труд сейчас. По башне отдельно отметить, к какому циклу соберут усиление и начнут искать вклады на обе единицы каркаса.</p></article>
+        <article><h3>На первый тест оставить текущие цены</h3><p>Дать игрокам сначала обсудить варианты голосом. Если сделки снова не возникнут, будет видно, чего не хватило: подходящего партнёра, выполнимых долей, времени или ценности самого проекта.</p></article>
+      </section>
+    </div>
+
+    <footer>
+      <p>Две партии без таймера с отдельными сессиями и последовательным применением действий. Во втором прогоне агентам явно назвали ориентир 7 на шесть циклов и строительный рубеж. Между прогонами менялись сценарий, карточки и порядок фиксации вкладов, поэтому сравнение описывает эти две партии. Самоотчёты помогают выбрать эпизоды для наблюдения на живой игре.</p>
+      <nav aria-label="Материалы"><a href="log.md">Журнал второй партии</a><a href="feedback.md">Ответы восьми агентов</a><a href="../2026-11-17T19-55-07/playtest-review.html">Отчёт первого прогона</a></nav>
+    </footer>
+  </main>
+</body>
+</html>

@@ -1,0 +1,69 @@
+{
+  "original_hashes": {
+    "S01": true,
+    "S02": true,
+    "S03": true,
+    "S04": true,
+    "S05": true,
+    "S06": true,
+    "S07": true,
+    "S08": true
+  },
+  "pptx": {
+    "S01": {
+      "slides": 6,
+      "text_paragraphs_checked": 21
+    },
+    "S04": {
+      "slides": 4,
+      "text_paragraphs_checked": 32
+    }
+  },
+  "pdf_checklist": {
+    "1": {
+      "source_nonspace_chars": 18918,
+      "cell_nonspace_chars": 18918,
+      "missing_chars": {},
+      "extra_chars": {}
+    },
+    "2": {
+      "source_nonspace_chars": 19283,
+      "cell_nonspace_chars": 19283,
+      "missing_chars": {},
+      "extra_chars": {}
+    },
+    "3": {
+      "source_nonspace_chars": 12572,
+      "cell_nonspace_chars": 12572,
+      "missing_chars": {},
+      "extra_chars": {}
+    },
+    "named_subcompetencies": 34
+  },
+  "links": {
+    "internal_anchors_checked": 10,
+    "archive_anchors_checked": 38
+  },
+  "text_quality": {
+    "source_count": 10,
+    "replacement_characters": 0,
+    "master_chars": 34217,
+    "master_lines": 290,
+    "archive_chars": 117676,
+    "archive_lines": 2036
+  },
+  "docx": {
+    "S03": {
+      "text_runs_checked": 36,
+      "missing": 0
+    },
+    "S05": {
+      "text_runs_checked": 31,
+      "missing": 0
+    },
+    "S07": {
+      "text_runs_checked": 58,
+      "missing": 0
+    }
+  }
+}
